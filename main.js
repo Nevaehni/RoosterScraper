@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
     try
     {
         let url = "https://rooster.talnet.nl/zuidoost/frames/navbar.htm";
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: false });
         const page = await browser.newPage();
         page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36');
 
@@ -18,15 +18,17 @@ const puppeteer = require('puppeteer');
 
             let table = [];
             var i;
-            for(i=250; i <= dataLength; i++)
-            {      
-                table.push([i, document.querySelector("select[name='element'] > option[value='"+i+"']").innerText])                
+            for(i=1; i <= dataLength; i++)
+            {                      
+                let className = document.querySelector("select[name='element'] > option[value='"+i+"']").innerText
+                // await page.screenshot({path: 'images/'+className});
+                table.push([i, className])                
             } 
 
             return table
         })
 
-        console.log(data[0])
+        console.log(data)
 
         browser.close();
     }
